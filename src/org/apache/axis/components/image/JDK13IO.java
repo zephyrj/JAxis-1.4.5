@@ -26,6 +26,7 @@ import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -62,8 +63,7 @@ public class JDK13IO extends Component implements ImageIO {
 
         // Write the image to the output stream
         if ("image/jpeg".equals(mimeType)) {
-            JPEGImageEncoderImpl j = new JPEGImageEncoderImpl(os);
-            j.encode(rendImage);
+          javax.imageio.ImageIO.write((RenderedImage)image, "jpg", os);
         }
         else {
             throw new IOException(Messages.getMessage("jpegOnly", mimeType));
