@@ -16,14 +16,7 @@
 
 package org.apache.axis.configuration;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -164,10 +157,16 @@ public class FileProvider implements WSDDEngineConfiguration {
         try {
             if (getInputStream() == null) {
                 try {
+                  System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+                    System.out.println("Try to get configuration from InputStream");
+                  System.out.println("SearchClasspath = "+searchClasspath);
                     setInputStream(new FileInputStream(configFile));
                 } catch (Exception e) {
                     if (searchClasspath)
-                        setInputStream(ClassUtils.getResourceAsStream(engine.getClass(), filename, true));
+                    {
+                      System.out.println(engine.getClass().getName());
+                      setInputStream(ClassUtils.getResourceAsStream(engine.getClass(), filename, true));
+                    }
                 }
             }
 
